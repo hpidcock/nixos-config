@@ -29,6 +29,7 @@
     unstable-pkgs.element-desktop
     unstable-pkgs.vscode
     unstable-pkgs.standardnotes
+    #unstable-pkgs.zed-editor
 
     pkgs.podman
     pkgs.minikube
@@ -192,6 +193,7 @@
       "workbench.colorTheme" = "Solarized Dark";
       "window.menuBarVisibility" = "toggle";
       "files.simpleDialog.enable" = true;
+      "extensions.ignoreRecommendations" = false;
     };
   };
 
