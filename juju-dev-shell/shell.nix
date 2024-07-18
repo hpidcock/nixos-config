@@ -3,7 +3,7 @@ let
   packages = with pkgs; [
     zsh
     go
-    yq
+    yq-go
     jq
     gnumake
     gccStdenv
@@ -14,6 +14,7 @@ let
     shellcheck
     expect
     azure-cli
+    shfmt
   ];
   libs = with pkgs; [
     sqlite

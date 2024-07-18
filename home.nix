@@ -25,6 +25,7 @@
     pkgs.wofi
     pkgs.wl-mirror
 
+    pkgs.qbittorrent
     pkgs.spotify
     unstable-pkgs.element-desktop
     unstable-pkgs.vscode
@@ -70,6 +71,10 @@
   home.sessionVariables = {
     EDITOR = "vim";
     PATH = "/home/hpidcock/go/bin:$PATH";
+  };
+
+  home.language = {
+    base = "en_AU.utf8";
   };
 
   programs.git = {
@@ -194,6 +199,9 @@
       "window.menuBarVisibility" = "toggle";
       "files.simpleDialog.enable" = true;
       "extensions.ignoreRecommendations" = false;
+      "editor.scrollbar.verticalScrollbarSize" = 8;
+      "editor.scrollbar.horizontalScrollbarSize" = 8;
+      "editor.minimap.maxColumn" = 100;
     };
   };
 
