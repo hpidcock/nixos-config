@@ -1,5 +1,11 @@
 {pkgs, lib, ...}:
 let
+  mongo-4_4 = pkgs.callPackage ../mongodb/4.4.nix {
+    sasl = pkgs.cyrus_sasl;
+    boost = pkgs.boost179.override { enableShared = false; };
+    inherit (pkgs.darwin) cctools;
+    inherit (pkgs.darwin.apple_sdk.frameworks) CoreFoundation Security;
+  };
   packages = with pkgs; [
     zsh
     go
@@ -10,11 +16,11 @@ let
     gcc
     pkg-config
     bzip2
-    mongodb-5_0
     shellcheck
     expect
     azure-cli
     shfmt
+    (mongo-4_4)
   ];
   libs = with pkgs; [
     sqlite
