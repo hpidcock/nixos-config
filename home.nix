@@ -53,6 +53,8 @@
     # '')
 
     (import ./juju-dev-shell/shell.nix pkgs)
+    (import ./rust-dev-shell/shell.nix pkgs)
+    (import ./go-dev-shell/shell.nix pkgs)
   ];
 
   home.file = {
@@ -157,10 +159,10 @@
           ZVM_INSERT_MODE_CURSOR=$ZVM_CURSOR_BLOCK
           ZVM_NORMAL_MODE_CURSOR=$ZVM_CURSOR_UNDERLINE
         }        
-	alias mm=kubectl
-	alias mc='mm -ncontroller-minikube'
-	alias ma='mm -na'
-	alias mb='mm -nb'
+	alias mkm=kubectl
+	alias mkc='mkm -ncontroller-minikube'
+	alias mka='mkm -na'
+	alias mkb='mkm -nb'
         function modver() {
 	  TZ=UTC git --no-pager show \
 	  --quiet \
@@ -193,6 +195,7 @@
       bbenoist.nix
       eamodio.gitlens
       github.vscode-github-actions
+      rust-lang.rust-analyzer
     ];
     userSettings = {
       "workbench.colorTheme" = "Solarized Dark";
