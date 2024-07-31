@@ -23,7 +23,7 @@ in pkgs.runCommand "zsh-rust-dev" {
   done
 
   mkdir -p $out/bin/
-  ln -s ${pkgs.zsh}/bin/zsh $out/bin/zsh-zsh-rust-dev
+  ln -s ${pkgs.zsh}/bin/zsh $out/bin/zsh-rust-dev
   wrapProgram $out/bin/zsh-rust-dev \
     --prefix PATH : ${pkgs.lib.makeBinPath packages} \
     --suffix PKG_CONFIG_PATH : "$RDEV_PKG_CONFIG_PATH" \
