@@ -201,7 +201,7 @@
       "workbench.colorTheme" = "Solarized Dark";
       "window.menuBarVisibility" = "toggle";
       "files.simpleDialog.enable" = true;
-      "extensions.ignoreRecommendations" = false;
+      "extensions.ignoreRecommendations" = true;
       "editor.scrollbar.verticalScrollbarSize" = 8;
       "editor.scrollbar.horizontalScrollbarSize" = 8;
       "editor.minimap.maxColumn" = 100;
