@@ -193,9 +193,7 @@
       golang.go
       babakks.vscode-go-test-suite
       bbenoist.nix
-      eamodio.gitlens
-      github.vscode-github-actions
-      rust-lang.rust-analyzer
+      waderyan.gitblame
     ];
     userSettings = {
       "workbench.colorTheme" = "Solarized Dark";
@@ -205,6 +203,8 @@
       "editor.scrollbar.verticalScrollbarSize" = 8;
       "editor.scrollbar.horizontalScrollbarSize" = 8;
       "editor.minimap.maxColumn" = 100;
+      "scm.showHistoryGraph" = false;
+      "scm.showChangesSummary" = false;
     };
   };
 
