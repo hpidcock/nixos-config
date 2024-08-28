@@ -1,4 +1,4 @@
-{pkgs, lib, ...}:
+{pkgs, unstable-pkgs, lib, ...}:
 let
   mongo-4_4 = pkgs.callPackage ../mongodb/4.4.nix {
     sasl = pkgs.cyrus_sasl;
@@ -8,7 +8,7 @@ let
   };
   packages = with pkgs; [
     zsh
-    go
+    (unstable-pkgs.go_1_23)
     yq-go
     jq
     gnumake

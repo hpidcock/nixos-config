@@ -1,4 +1,4 @@
-{ config, pkgs, unstable-pkgs, ... }:
+{ config, pkgs, unstable-pkgs, lib, ... }:
 
 {
   home.username = "hpidcock";
@@ -10,7 +10,7 @@
     pkgs.vim
     pkgs.git
     pkgs.gh
-    pkgs.go
+    unstable-pkgs.go_1_23
     pkgs.gnumake
 
     pkgs.nixgl.nixGLMesa
@@ -52,7 +52,7 @@
     #   echo "Hello, ${config.home.username}!"
     # '')
 
-    (import ./juju-dev-shell/shell.nix pkgs)
+    (import ./juju-dev-shell/shell.nix {pkgs=pkgs; unstable-pkgs=unstable-pkgs; lib=lib;})
     (import ./rust-dev-shell/shell.nix pkgs)
     (import ./go-dev-shell/shell.nix pkgs)
   ];
