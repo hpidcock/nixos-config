@@ -24,6 +24,7 @@
     pkgs.slurp
     pkgs.wofi
     pkgs.wl-mirror
+    pkgs.google-chrome
 
     pkgs.qbittorrent
     pkgs.spotify
@@ -38,6 +39,9 @@
     pkgs.charmcraft
     pkgs.awscli2
     pkgs.ssm-session-manager-plugin
+
+    pkgs.wineWowPackages.stable
+    pkgs.winetricks
 
     # # It is sometimes useful to fine-tune packages, for example, by applying
     # # overrides. You can do that directly here, just don't forget the
