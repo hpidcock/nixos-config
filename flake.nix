@@ -8,9 +8,10 @@
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
     nixgl.url = "github:nix-community/nixGL";
     nix-vscode-extensions.url = "github:nix-community/nix-vscode-extensions";
+    _1password-shell-plugins.url = "github:1Password/shell-plugins";
   };
 
-  outputs = { self, nixpkgs, nixpkgs-unstable, home-manager, nixgl, nix-vscode-extensions }: 
+  outputs = { nixpkgs, nixpkgs-unstable, home-manager, nixgl, nix-vscode-extensions, ... }: 
 
   let
     system = "x86_64-linux";
@@ -20,15 +21,18 @@
         allowUnfree = true;
       };
       overlays = [
-        nixgl.overlay
       ];
     };
     unstable-pkgs = import nixpkgs-unstable {
       system = system;
       config = {
         allowUnfree = true;
+        permittedInsecurePackages = [
+          "electron-27.3.11"
+        ];
       };
       overlays = [
+        nixgl.overlay
         nix-vscode-extensions.overlays.default
       ];
     };

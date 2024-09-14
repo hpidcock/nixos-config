@@ -13,10 +13,10 @@
     unstable-pkgs.go_1_23
     pkgs.gnumake
 
-    pkgs.nixgl.nixGLMesa
-    pkgs.sway
+    unstable-pkgs.nixgl.nixGLMesa
+    unstable-pkgs.sway
     #pkgs.swaylock # Use the ubuntu one, since it actually works with pam.
-    pkgs.alacritty
+    unstable-pkgs.alacritty
     pkgs.mako
     pkgs.grim
     pkgs.waybar
@@ -24,41 +24,25 @@
     pkgs.slurp
     pkgs.wofi
     pkgs.wl-mirror
-    pkgs.google-chrome
 
     pkgs.qbittorrent
     pkgs.spotify
     unstable-pkgs.element-desktop
     unstable-pkgs.vscode
-    unstable-pkgs.standardnotes
-    #unstable-pkgs.zed-editor
+    unstable-pkgs.logseq
+    unstable-pkgs._1password
+    unstable-pkgs._1password-gui
 
     pkgs.podman
     pkgs.minikube
     pkgs.kubectl
-    pkgs.charmcraft
     pkgs.awscli2
     pkgs.ssm-session-manager-plugin
 
     pkgs.wineWowPackages.stable
     pkgs.winetricks
 
-    # # It is sometimes useful to fine-tune packages, for example, by applying
-    # # overrides. You can do that directly here, just don't forget the
-    # # parentheses. Maybe you want to install Nerd Fonts with a limited number of
-    # # fonts?
-    # (pkgs.nerdfonts.override { fonts = [ "FantasqueSansMono" ]; })
-
-    # # You can also create simple shell scripts directly inside your
-    # # configuration. For example, this adds a command 'my-hello' to your
-    # # environment:
-    # (pkgs.writeShellScriptBin "my-hello" ''
-    #   echo "Hello, ${config.home.username}!"
-    # '')
-
     (import ./juju-dev-shell/shell.nix {pkgs=pkgs; unstable-pkgs=unstable-pkgs; lib=lib;})
-    (import ./rust-dev-shell/shell.nix pkgs)
-    (import ./go-dev-shell/shell.nix pkgs)
   ];
 
   home.file = {
@@ -103,6 +87,7 @@
 
   programs.alacritty = {
     enable = true;
+    package = unstable-pkgs.alacritty;
     settings = {
       live_config_reload = true;
       font.size = 17.0;
@@ -163,10 +148,6 @@
           ZVM_INSERT_MODE_CURSOR=$ZVM_CURSOR_BLOCK
           ZVM_NORMAL_MODE_CURSOR=$ZVM_CURSOR_UNDERLINE
         }        
-	alias mkm=kubectl
-	alias mkc='mkm -ncontroller-minikube'
-	alias mka='mkm -na'
-	alias mkb='mkm -nb'
         function modver() {
 	  TZ=UTC git --no-pager show \
 	  --quiet \
@@ -178,7 +159,7 @@
       '';
     oh-my-zsh = {
       enable = true;
-      plugins = [ "git" ];
+      plugins = [];
       theme = "agnoster";
     };
     plugins = [
