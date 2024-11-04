@@ -25,18 +25,18 @@
     pkgs.wofi
     pkgs.wl-mirror
 
-    pkgs.qbittorrent
     pkgs.spotify
     unstable-pkgs.element-desktop
     unstable-pkgs.vscode
     unstable-pkgs.logseq
-    unstable-pkgs._1password
+    unstable-pkgs._1password-cli
     unstable-pkgs._1password-gui
 
     pkgs.podman
     pkgs.minikube
     pkgs.kubectl
     pkgs.awscli2
+    unstable-pkgs.google-cloud-sdk
     pkgs.ssm-session-manager-plugin
 
     pkgs.wineWowPackages.stable
@@ -156,6 +156,10 @@
 	  --format="%cd-%h"
 	}
 	alias modver=modver
+	function juju_kill_controllers() {
+	  juju controllers --format=yaml | yq '.controllers | keys | .[]' | xargs -n 1 juju kill-controller --no-prompt --timeout 0s
+	}
+	alias juju-kill-controllers=juju_kill_controllers
       '';
     oh-my-zsh = {
       enable = true;
