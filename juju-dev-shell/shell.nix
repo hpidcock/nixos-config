@@ -20,8 +20,9 @@ let
     expect
     azure-cli
     shfmt
-    snapcraft
-    charmcraft
+    (unstable-pkgs.snapcraft)
+    (unstable-pkgs.rockcraft)
+    (unstable-pkgs.charmcraft)
     (mongo-4_4)
   ];
   libs = with pkgs; [
