@@ -12,6 +12,9 @@
     pkgs.gh
     unstable-pkgs.go_1_23
     pkgs.gnumake
+    pkgs.htop
+    pkgs.wget
+    pkgs.curl
 
     unstable-pkgs.nixgl.nixGLMesa
     unstable-pkgs.sway
@@ -89,7 +92,9 @@
     enable = true;
     package = unstable-pkgs.alacritty;
     settings = {
-      live_config_reload = true;
+      general = {
+        live_config_reload = true;
+      };
       font.size = 17.0;
       font.bold.family = "DejaVu Sans Mono";
       font.italic.family = "DejaVu Sans Mono";
@@ -102,7 +107,9 @@
       scrolling.history = 10000;
       scrolling.multiplier = 3;
       selection.save_to_clipboard = false;
-      shell.program = "zsh";
+      terminal = {
+        shell.program = "zsh";
+      };
       window = {
         decorations = "full";
         dynamic_padding = false;
