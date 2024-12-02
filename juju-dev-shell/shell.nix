@@ -20,7 +20,7 @@ let
     expect
     azure-cli
     shfmt
-    (unstable-pkgs.snapcraft)
+    (pkgs.snapcraft)
     (unstable-pkgs.rockcraft)
     (unstable-pkgs.charmcraft)
     (mongo-4_4)
