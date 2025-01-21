@@ -22,7 +22,7 @@ let
     shfmt
     (pkgs.snapcraft)
     (unstable-pkgs.rockcraft)
-    (unstable-pkgs.charmcraft)
+    (pkgs.charmcraft)
     (mongo-4_4)
   ];
   libs = with pkgs; [
