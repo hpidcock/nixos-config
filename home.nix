@@ -5,6 +5,8 @@
   home.homeDirectory = "/home/hpidcock";
   home.stateVersion = "24.05";
 
+  nixGL.packages = pkgs.nixgl;
+  nixGL.defaultWrapper = "mesa";
   home.packages = [
     pkgs.zsh
     pkgs.vim
@@ -17,23 +19,19 @@
     pkgs.curl
 
     pkgs.nixgl.nixGLMesa
-    pkgs.sway
+    (config.lib.nixGL.wrap pkgs.sway)
     #pkgs.swaylock # Use the ubuntu one, since it actually works with pam.
-    pkgs.alacritty
-    pkgs.mako
-    pkgs.grim
-    pkgs.waybar
-    pkgs.wl-clipboard
-    pkgs.slurp
-    pkgs.wofi
-    pkgs.wl-mirror
+    (config.lib.nixGL.wrap pkgs.mako)
+    (config.lib.nixGL.wrap pkgs.grim)
+    (config.lib.nixGL.wrap pkgs.waybar)
+    (config.lib.nixGL.wrap pkgs.wl-clipboard)
+    (config.lib.nixGL.wrap pkgs.slurp)
+    (config.lib.nixGL.wrap pkgs.wl-mirror)
 
-    pkgs.spotify
-    unstable-pkgs.element-desktop
-    unstable-pkgs.vscode
-    unstable-pkgs.logseq
+    (config.lib.nixGL.wrap pkgs.spotify)
+    (config.lib.nixGL.wrap unstable-pkgs.element-desktop)
+    (config.lib.nixGL.wrap unstable-pkgs._1password-gui)
     unstable-pkgs._1password-cli
-    unstable-pkgs._1password-gui
 
     pkgs.podman
     pkgs.minikube
@@ -46,6 +44,7 @@
     pkgs.winetricks
 
     (import ./juju-dev-shell/shell.nix {pkgs=pkgs; unstable-pkgs=unstable-pkgs; lib=lib;})
+    (import ./firefox-snap.nix {pkgs=pkgs; lib=lib;})
   ];
 
   home.file = {
@@ -90,7 +89,7 @@
 
   programs.alacritty = {
     enable = true;
-    package = pkgs.alacritty;
+    package = (config.lib.nixGL.wrap pkgs.alacritty);
     settings = {
       general = {
         live_config_reload = true;
@@ -184,7 +183,7 @@
 
   programs.vscode = {
     enable = true;
-    package = unstable-pkgs.vscode;
+    package = (config.lib.nixGL.wrap unstable-pkgs.vscode);
     extensions = with unstable-pkgs.vscode-marketplace; [
       golang.go
       babakks.vscode-go-test-suite
@@ -208,6 +207,7 @@
 
   programs.wofi = {
     enable = true;
+    package = (config.lib.nixGL.wrap pkgs.wofi);
     style = ''
       window {
         margin: 0px;
