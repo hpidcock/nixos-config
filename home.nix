@@ -16,10 +16,10 @@
     pkgs.wget
     pkgs.curl
 
-    unstable-pkgs.nixgl.nixGLMesa
-    unstable-pkgs.sway
+    pkgs.nixgl.nixGLMesa
+    pkgs.sway
     #pkgs.swaylock # Use the ubuntu one, since it actually works with pam.
-    unstable-pkgs.alacritty
+    pkgs.alacritty
     pkgs.mako
     pkgs.grim
     pkgs.waybar
@@ -90,7 +90,7 @@
 
   programs.alacritty = {
     enable = true;
-    package = unstable-pkgs.alacritty;
+    package = pkgs.alacritty;
     settings = {
       general = {
         live_config_reload = true;
@@ -190,6 +190,7 @@
       babakks.vscode-go-test-suite
       bbenoist.nix
       waderyan.gitblame
+      mrworkman.papercolor-vscode-redux
     ];
     userSettings = {
       "workbench.colorTheme" = "Solarized Dark";
@@ -201,6 +202,7 @@
       "editor.minimap.maxColumn" = 100;
       "scm.showHistoryGraph" = false;
       "scm.showChangesSummary" = false;
+      "editor.semanticHighlighting.enabled" = true;
     };
   };
 
