@@ -19,6 +19,7 @@
     pkgs.curl
 
     pkgs.nixgl.nixGLMesa
+    pkgs.nixgl.nixVulkanIntel
     (config.lib.nixGL.wrap pkgs.sway)
     #pkgs.swaylock # Use the ubuntu one, since it actually works with pam.
     (config.lib.nixGL.wrap pkgs.mako)
@@ -45,6 +46,7 @@
 
     (import ./juju-dev-shell/shell.nix {pkgs=pkgs; unstable-pkgs=unstable-pkgs; lib=lib;})
     (import ./firefox-snap.nix {pkgs=pkgs; lib=lib;})
+    (import ./zed-editor.nix {pkgs=unstable-pkgs; lib=lib;})
   ];
 
   home.file = {

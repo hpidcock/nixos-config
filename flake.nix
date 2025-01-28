@@ -33,6 +33,7 @@
         ];
       };
       overlays = [
+        nixgl.overlay
         nix-vscode-extensions.overlays.default
       ];
     };
