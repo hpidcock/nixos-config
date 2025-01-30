@@ -1,9 +1,9 @@
-{ config, pkgs, unstable-pkgs, lib, ... }:
+{ config, pkgs, unstable-pkgs, pkgs-24-05, lib, ... }:
 
 {
   home.username = "hpidcock";
   home.homeDirectory = "/home/hpidcock";
-  home.stateVersion = "24.05";
+  home.stateVersion = "24.11";
 
   nixGL.packages = pkgs.nixgl;
   nixGL.defaultWrapper = "mesa";
@@ -28,6 +28,7 @@
     (config.lib.nixGL.wrap pkgs.wl-clipboard)
     (config.lib.nixGL.wrap pkgs.slurp)
     (config.lib.nixGL.wrap pkgs.wl-mirror)
+    (config.lib.nixGL.wrap unstable-pkgs.ghostty)
 
     (config.lib.nixGL.wrap pkgs.spotify)
     (config.lib.nixGL.wrap unstable-pkgs.element-desktop)
@@ -44,7 +45,9 @@
     pkgs.wineWowPackages.stable
     pkgs.winetricks
 
-    (import ./juju-dev-shell/shell.nix {pkgs=pkgs; unstable-pkgs=unstable-pkgs; lib=lib;})
+    pkgs.ollama-rocm
+
+    (import ./juju-dev-shell/shell.nix {pkgs=pkgs; unstable-pkgs=unstable-pkgs; pkgs-24-05=pkgs-24-05; lib=lib;})
     (import ./firefox-snap.nix {pkgs=pkgs; lib=lib;})
     (import ./zed-editor.nix {pkgs=unstable-pkgs; lib=lib;})
   ];
@@ -185,7 +188,7 @@
 
   programs.vscode = {
     enable = true;
-    package = (config.lib.nixGL.wrap unstable-pkgs.vscode);
+    package = unstable-pkgs.vscode;
     extensions = with unstable-pkgs.vscode-marketplace; [
       golang.go
       babakks.vscode-go-test-suite

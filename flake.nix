@@ -4,6 +4,7 @@
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs?ref=nixos-24.11";
     nixpkgs-unstable.url = "github:nixos/nixpkgs?ref=nixos-unstable"; 
+    nixpkgs-24-05.url = "github:nixos/nixpkgs?ref=nixos-24.05";
     home-manager.url = "github:nix-community/home-manager?ref=release-24.11";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
     nixgl.url = "github:nix-community/nixGL";
@@ -11,7 +12,7 @@
     _1password-shell-plugins.url = "github:1Password/shell-plugins";
   };
 
-  outputs = { nixpkgs, nixpkgs-unstable, home-manager, nixgl, nix-vscode-extensions, ... }: 
+  outputs = { nixpkgs, nixpkgs-unstable, nixpkgs-24-05, home-manager, nixgl, nix-vscode-extensions, ... }: 
 
   let
     system = "x86_64-linux";
@@ -37,6 +38,12 @@
         nix-vscode-extensions.overlays.default
       ];
     };
+    pkgs-24-05 = import nixpkgs-24-05 {
+      system = system;
+      config = {
+        allowUnfree = true;
+      };
+    }; 
   in
   {
     homeConfigurations.hpidcock = home-manager.lib.homeManagerConfiguration {
@@ -46,6 +53,7 @@
       ];
       extraSpecialArgs = {
         unstable-pkgs = unstable-pkgs;
+        pkgs-24-05 = pkgs-24-05;
       };
     };
   };

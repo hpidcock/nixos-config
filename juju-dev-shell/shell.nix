@@ -1,11 +1,11 @@
-{pkgs, unstable-pkgs, lib, ...}:
+{pkgs, unstable-pkgs, pkgs-24-05, lib, ...}:
 let
-  #mongo-4_4 = pkgs.callPackage ../mongodb/4.4.nix {
-  #  sasl = pkgs.cyrus_sasl;
-  #  boost = pkgs.boost179.override { enableShared = false; };
-  #  inherit (pkgs.darwin) cctools;
-  #  inherit (pkgs.darwin.apple_sdk.frameworks) CoreFoundation Security;
-  #};
+  mongo-4_4 = pkgs-24-05.callPackage ../mongodb/4.4.nix {
+    sasl = pkgs-24-05.cyrus_sasl;
+    boost = pkgs-24-05.boost179.override { enableShared = false; };
+    inherit (pkgs-24-05.darwin) cctools;
+    inherit (pkgs-24-05.darwin.apple_sdk.frameworks) CoreFoundation Security;
+  };
   packages = with pkgs; [
     zsh
     (unstable-pkgs.go_1_23)
@@ -21,10 +21,10 @@ let
     azure-cli
     shfmt
     graphviz
-    (pkgs.snapcraft)
+    (unstable-pkgs.snapcraft)
     (unstable-pkgs.rockcraft)
-    (pkgs.charmcraft)
-  #  (mongo-4_4)
+    (unstable-pkgs.charmcraft)
+    (mongo-4_4)
   ];
   libs = with pkgs; [
     sqlite
