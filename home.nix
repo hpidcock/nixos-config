@@ -1,4 +1,4 @@
-{ config, pkgs, unstable-pkgs, pkgs-24-05, lib, ... }:
+{ config, pkgs, pkgs-unstable, pkgs-24-05, lib, ... }:
 
 {
   home.username = "hpidcock";
@@ -12,7 +12,7 @@
     pkgs.vim
     pkgs.git
     pkgs.gh
-    unstable-pkgs.go_1_23
+    pkgs-unstable.go_1_23
     pkgs.gnumake
     pkgs.htop
     pkgs.wget
@@ -28,18 +28,18 @@
     (config.lib.nixGL.wrap pkgs.wl-clipboard)
     (config.lib.nixGL.wrap pkgs.slurp)
     (config.lib.nixGL.wrap pkgs.wl-mirror)
-    (config.lib.nixGL.wrap unstable-pkgs.ghostty)
+    (config.lib.nixGL.wrap pkgs-unstable.ghostty)
 
     (config.lib.nixGL.wrap pkgs.spotify)
-    (config.lib.nixGL.wrap unstable-pkgs.element-desktop)
-    (config.lib.nixGL.wrap unstable-pkgs._1password-gui)
-    unstable-pkgs._1password-cli
+    (config.lib.nixGL.wrap pkgs-unstable.element-desktop)
+    (config.lib.nixGL.wrap pkgs-unstable._1password-gui)
+    pkgs-unstable._1password-cli
 
     pkgs.podman
     pkgs.minikube
     pkgs.kubectl
     pkgs.awscli2
-    unstable-pkgs.google-cloud-sdk
+    pkgs-unstable.google-cloud-sdk
     pkgs.ssm-session-manager-plugin
 
     pkgs.wineWowPackages.stable
@@ -47,9 +47,9 @@
 
     pkgs.ollama-rocm
 
-    (import ./juju-dev-shell/shell.nix {pkgs=pkgs; unstable-pkgs=unstable-pkgs; pkgs-24-05=pkgs-24-05; lib=lib;})
+    (import ./juju-dev-shell/shell.nix {pkgs=pkgs; pkgs-unstable=pkgs-unstable; pkgs-24-05=pkgs-24-05; lib=lib;})
     (import ./firefox-snap.nix {pkgs=pkgs; lib=lib;})
-    (import ./zed-editor.nix {pkgs=unstable-pkgs; lib=lib;})
+    (import ./zed-editor.nix {pkgs=pkgs-unstable; lib=lib;})
   ];
 
   home.file = {
@@ -158,7 +158,7 @@
         zvm_config() {
           ZVM_INSERT_MODE_CURSOR=$ZVM_CURSOR_BLOCK
           ZVM_NORMAL_MODE_CURSOR=$ZVM_CURSOR_UNDERLINE
-        }        
+        }
         function modver() {
 	  TZ=UTC git --no-pager show \
 	  --quiet \
@@ -188,8 +188,8 @@
 
   programs.vscode = {
     enable = true;
-    package = unstable-pkgs.vscode;
-    extensions = with unstable-pkgs.vscode-marketplace; [
+    package = pkgs-unstable.vscode;
+    extensions = with pkgs-unstable.vscode-marketplace; [
       golang.go
       babakks.vscode-go-test-suite
       bbenoist.nix

@@ -1,4 +1,4 @@
-{pkgs, unstable-pkgs, pkgs-24-05, lib, ...}:
+{pkgs, pkgs-unstable, pkgs-24-05, lib, ...}:
 let
   mongo-4_4 = pkgs-24-05.callPackage ../mongodb/4.4.nix {
     sasl = pkgs-24-05.cyrus_sasl;
@@ -8,7 +8,7 @@ let
   };
   packages = with pkgs; [
     zsh
-    (unstable-pkgs.go_1_23)
+    (pkgs-unstable.go_1_23)
     yq-go
     jq
     gnumake
@@ -21,9 +21,9 @@ let
     azure-cli
     shfmt
     graphviz
-    (unstable-pkgs.snapcraft)
-    (unstable-pkgs.rockcraft)
-    (unstable-pkgs.charmcraft)
+    (pkgs-unstable.snapcraft)
+    (pkgs-unstable.rockcraft)
+    (pkgs-unstable.charmcraft)
     (mongo-4_4)
   ];
   libs = with pkgs; [
