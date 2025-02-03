@@ -1,4 +1,4 @@
-{pkgs, lib, ...}:
+{ pkgs, lib, ... }:
 let
   ffscript = pkgs.writeShellScriptBin "firefox" ''
     unset __EGL_VENDOR_LIBRARY_FILENAMES
@@ -10,4 +10,3 @@ in pkgs.symlinkJoin {
   buildInputs = [ pkgs.makeWrapper ];
   postBuild = "wrapProgram $out/bin/firefox --prefix PATH : $out/bin";
 }
-

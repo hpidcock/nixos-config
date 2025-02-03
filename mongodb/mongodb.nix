@@ -1,25 +1,6 @@
-{ lib
-, stdenv
-, fetchFromGitHub
-, buildPackages
-, boost
-, gperftools
-, pcre-cpp
-, snappy
-, zlib
-, yaml-cpp
-, sasl
-, net-snmp
-, openldap
-, openssl
-, libpcap
-, python3
-, curl
-, Security
-, CoreFoundation
-, cctools
-, xz
-}:
+{ lib, stdenv, fetchFromGitHub, buildPackages, boost, gperftools, pcre-cpp
+, snappy, zlib, yaml-cpp, sasl, net-snmp, openldap, openssl, libpcap, python3
+, curl, Security, CoreFoundation, cctools, xz }:
 
 # Note:
 #   The command line administrative tools are part of other packages:
@@ -27,21 +8,14 @@
 
 with lib;
 
-{ version, sha256, patches ? []
-, license ? lib.licenses.sspl
-}:
+{ version, sha256, patches ? [ ], license ? lib.licenses.sspl }:
 
 let
   scons = buildPackages.scons;
-  python = scons.python.withPackages (ps: with ps; [
-    pyyaml
-    cheetah3
-    psutil
-    setuptools
-  ] ++ lib.optionals (versionAtLeast version "6.0") [
-    packaging
-    pymongo
-  ]);
+  python = scons.python.withPackages (ps:
+    with ps;
+    [ pyyaml cheetah3 psutil setuptools ]
+    ++ lib.optionals (versionAtLeast version "6.0") [ packaging pymongo ]);
 
   mozjsVersion = "60";
   mozjsReplace = "defined(HAVE___SINCOS)";
@@ -70,10 +44,7 @@ in stdenv.mkDerivation rec {
     inherit sha256;
   };
 
-  nativeBuildInputs = [
-    scons
-    python
-  ] ++ lib.optional stdenv.isLinux net-snmp;
+  nativeBuildInputs = [ scons python ] ++ lib.optional stdenv.isLinux net-snmp;
 
   buildInputs = [
     boost
@@ -88,8 +59,8 @@ in stdenv.mkDerivation rec {
     snappy
     zlib
   ] ++ lib.optionals stdenv.isDarwin [ Security CoreFoundation cctools ]
-  ++ lib.optional stdenv.isLinux net-snmp
-  ++ lib.optionals (versionAtLeast version "4.4") [ xz ];
+    ++ lib.optional stdenv.isLinux net-snmp
+    ++ lib.optionals (versionAtLeast version "4.4") [ xz ];
 
   # MongoDB keeps track of its build parameters, which tricks nix into
   # keeping dependencies to build inputs in the final output.
@@ -100,7 +71,7 @@ in stdenv.mkDerivation rec {
     # fix environment variable reading
     substituteInPlace SConstruct \
         --replace "env = Environment(" "env = Environment(ENV = os.environ,"
-   '' + lib.optionalString (versionAtLeast version "4.4") ''
+  '' + lib.optionalString (versionAtLeast version "4.4") ''
     # Fix debug gcc 11 and clang 12 builds on Fedora
     # https://github.com/mongodb/mongo/commit/e78b2bf6eaa0c43bd76dbb841add167b443d2bb0.patch
     substituteInPlace src/mongo/db/query/plan_summary_stats.h --replace '#include <string>' '#include <optional>
@@ -125,8 +96,8 @@ in stdenv.mkDerivation rec {
       --replace 'engine("wiredTiger")' 'engine("mmapv1")'
   '';
 
-  env.NIX_CFLAGS_COMPILE = lib.optionalString stdenv.cc.isClang
-    "-Wno-unused-command-line-argument";
+  env.NIX_CFLAGS_COMPILE =
+    lib.optionalString stdenv.cc.isClang "-Wno-unused-command-line-argument";
 
   sconsFlags = [
     "--release"
@@ -139,7 +110,7 @@ in stdenv.mkDerivation rec {
     "MONGO_VERSION=${version}"
     "VARIANT_DIR=nixos" # Needed so we don't produce argument lists that are too long for gcc / ld
   ] ++ lib.optionals (versionAtLeast version "4.4") [ "--link-model=static" ]
-  ++ map (lib: "--use-system-${lib}") system-libraries;
+    ++ map (lib: "--use-system-${lib}") system-libraries;
 
   # This seems to fix mongodb not able to find OpenSSL's crypto.h during build
   hardeningDisable = [ "fortify3" ];
@@ -168,12 +139,15 @@ in stdenv.mkDerivation rec {
     runHook postInstallCheck
   '';
 
-  installTargets =
-    if (versionAtLeast version "6.0") then "install-devcore"
-    else if (versionAtLeast version "4.4") then "install-core"
-    else "install";
+  installTargets = if (versionAtLeast version "6.0") then
+    "install-devcore"
+  else if (versionAtLeast version "4.4") then
+    "install-core"
+  else
+    "install";
 
-  prefixKey = if (versionAtLeast version "4.4") then "DESTDIR=" else "--prefix=";
+  prefixKey =
+    if (versionAtLeast version "4.4") then "DESTDIR=" else "--prefix=";
 
   enableParallelBuilding = true;
 

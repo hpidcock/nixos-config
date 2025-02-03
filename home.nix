@@ -17,6 +17,9 @@
     pkgs.htop
     pkgs.wget
     pkgs.curl
+    pkgs.nixd
+    pkgs.nil
+    pkgs.nixfmt-classic
 
     pkgs.nixgl.nixGLMesa
     pkgs.nixgl.nixVulkanIntel
@@ -47,9 +50,20 @@
 
     pkgs.ollama-rocm
 
-    (import ./juju-dev-shell/shell.nix {pkgs=pkgs; pkgs-unstable=pkgs-unstable; pkgs-24-05=pkgs-24-05; lib=lib;})
-    (import ./firefox-snap.nix {pkgs=pkgs; lib=lib;})
-    (import ./zed-editor.nix {pkgs=pkgs-unstable; lib=lib;})
+    (import ./juju-dev-shell/shell.nix {
+      pkgs = pkgs;
+      pkgs-unstable = pkgs-unstable;
+      pkgs-24-05 = pkgs-24-05;
+      lib = lib;
+    })
+    (import ./firefox-snap.nix {
+      pkgs = pkgs;
+      lib = lib;
+    })
+    (import ./zed-editor.nix {
+      pkgs = pkgs-unstable;
+      lib = lib;
+    })
   ];
 
   home.file = {
@@ -70,9 +84,7 @@
     PATH = "/home/hpidcock/go/bin:$PATH";
   };
 
-  home.language = {
-    base = "en_AU.utf8";
-  };
+  home.language = { base = "en_AU.utf8"; };
 
   programs.git = {
     enable = true;
@@ -83,12 +95,8 @@
       key = "47A14177CFB4DB92";
     };
     extraConfig.url = {
-      "git+ssh://git.launchpad.net/" = {
-        insteadOf = "lp:";
-      };
-      "ssh://git@github.com/" = {
-        insteadOf = "https://github.com/";
-      };
+      "git+ssh://git.launchpad.net/" = { insteadOf = "lp:"; };
+      "ssh://git@github.com/" = { insteadOf = "https://github.com/"; };
     };
   };
 
@@ -96,9 +104,7 @@
     enable = true;
     package = (config.lib.nixGL.wrap pkgs.alacritty);
     settings = {
-      general = {
-        live_config_reload = true;
-      };
+      general = { live_config_reload = true; };
       font.size = 17.0;
       font.bold.family = "DejaVu Sans Mono";
       font.italic.family = "DejaVu Sans Mono";
@@ -111,9 +117,7 @@
       scrolling.history = 10000;
       scrolling.multiplier = 3;
       selection.save_to_clipboard = false;
-      terminal = {
-        shell.program = "zsh";
-      };
+      terminal = { shell.program = "zsh"; };
       window = {
         decorations = "full";
         dynamic_padding = false;
@@ -155,35 +159,33 @@
   programs.zsh = {
     enable = true;
     initExtraFirst = ''
-        zvm_config() {
-          ZVM_INSERT_MODE_CURSOR=$ZVM_CURSOR_BLOCK
-          ZVM_NORMAL_MODE_CURSOR=$ZVM_CURSOR_UNDERLINE
-        }
-        function modver() {
-	  TZ=UTC git --no-pager show \
-	  --quiet \
-	  --abbrev=12 \
-	  --date='format-local:%Y%m%d%H%M%S' \
-	  --format="%cd-%h"
-	}
-	alias modver=modver
-	function juju_kill_controllers() {
-	  juju controllers --format=yaml | yq '.controllers | keys | .[]' | xargs -n 1 juju kill-controller --no-prompt --timeout 0s
-	}
-	alias juju-kill-controllers=juju_kill_controllers
-      '';
+              zvm_config() {
+                ZVM_INSERT_MODE_CURSOR=$ZVM_CURSOR_BLOCK
+                ZVM_NORMAL_MODE_CURSOR=$ZVM_CURSOR_UNDERLINE
+              }
+              function modver() {
+      	  TZ=UTC git --no-pager show \
+      	  --quiet \
+      	  --abbrev=12 \
+      	  --date='format-local:%Y%m%d%H%M%S' \
+      	  --format="%cd-%h"
+      	}
+      	alias modver=modver
+      	function juju_kill_controllers() {
+      	  juju controllers --format=yaml | yq '.controllers | keys | .[]' | xargs -n 1 juju kill-controller --no-prompt --timeout 0s
+      	}
+      	alias juju-kill-controllers=juju_kill_controllers
+    '';
     oh-my-zsh = {
       enable = true;
-      plugins = [];
+      plugins = [ ];
       theme = "agnoster";
     };
-    plugins = [
-      {
-        name = "vi-mode";
-        src = pkgs.zsh-vi-mode;
-        file = "share/zsh-vi-mode/zsh-vi-mode.plugin.zsh";
-      }
-    ];
+    plugins = [{
+      name = "vi-mode";
+      src = pkgs.zsh-vi-mode;
+      file = "share/zsh-vi-mode/zsh-vi-mode.plugin.zsh";
+    }];
   };
 
   programs.vscode = {
@@ -247,7 +249,7 @@
       #entry:selected {
         background-color: #073642;
       }
-      '';
+    '';
   };
 
   nix = {

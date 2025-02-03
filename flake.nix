@@ -12,49 +12,36 @@
     _1password-shell-plugins.url = "github:1Password/shell-plugins";
   };
 
-  outputs = { nixpkgs, nixpkgs-unstable, nixpkgs-24-05, home-manager, nixgl, nix-vscode-extensions, ... }:
+  outputs = { nixpkgs, nixpkgs-unstable, nixpkgs-24-05, home-manager, nixgl
+    , nix-vscode-extensions, ... }:
 
-  let
-    system = "x86_64-linux";
-    pkgs = import nixpkgs {
-      system = system;
-      config = {
-        allowUnfree = true;
+    let
+      system = "x86_64-linux";
+      pkgs = import nixpkgs {
+        system = system;
+        config = { allowUnfree = true; };
+        overlays = [ nixgl.overlay ];
       };
-      overlays = [
-        nixgl.overlay
-      ];
-    };
-    pkgs-unstable = import nixpkgs-unstable {
-      system = system;
-      config = {
-        allowUnfree = true;
-        permittedInsecurePackages = [
-          "electron-27.3.11"
-        ];
+      pkgs-unstable = import nixpkgs-unstable {
+        system = system;
+        config = {
+          allowUnfree = true;
+          permittedInsecurePackages = [ "electron-27.3.11" ];
+        };
+        overlays = [ nixgl.overlay nix-vscode-extensions.overlays.default ];
       };
-      overlays = [
-        nixgl.overlay
-        nix-vscode-extensions.overlays.default
-      ];
-    };
-    pkgs-24-05 = import nixpkgs-24-05 {
-      system = system;
-      config = {
-        allowUnfree = true;
+      pkgs-24-05 = import nixpkgs-24-05 {
+        system = system;
+        config = { allowUnfree = true; };
       };
-    };
-  in
-  {
-    homeConfigurations.hpidcock = home-manager.lib.homeManagerConfiguration {
-      pkgs = pkgs;
-      modules = [
-        ./home.nix
-      ];
-      extraSpecialArgs = {
-        pkgs-unstable = pkgs-unstable;
-        pkgs-24-05 = pkgs-24-05;
+    in {
+      homeConfigurations.hpidcock = home-manager.lib.homeManagerConfiguration {
+        pkgs = pkgs;
+        modules = [ ./home.nix ];
+        extraSpecialArgs = {
+          pkgs-unstable = pkgs-unstable;
+          pkgs-24-05 = pkgs-24-05;
+        };
       };
     };
-  };
 }
