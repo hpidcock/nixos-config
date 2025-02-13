@@ -1,5 +1,5 @@
 { lib, stdenv, fetchFromGitHub, buildPackages, boost, gperftools, pcre-cpp
-, snappy, zlib, yaml-cpp, sasl, net-snmp, openldap, openssl, libpcap, python3
+, snappy, zlib, yaml-cpp, sasl, net-snmp, openldap, openssl, libpcap
 , curl, Security, CoreFoundation, cctools, xz }:
 
 # Note:

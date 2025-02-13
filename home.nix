@@ -1,6 +1,17 @@
-{ config, pkgs, pkgs-unstable, pkgs-24-05, lib, ... }:
-
-{
+{ config, pkgs, pkgs-unstable, pkgs-24-05, pkgs-staging, lib, ... }:
+let
+  jdev = (import ./juju-dev-shell/shell.nix {
+    pkgs = pkgs;
+    pkgs-unstable = pkgs-unstable;
+    pkgs-24-05 = pkgs-24-05;
+    pkgs-staging = pkgs-staging;
+    lib = lib;
+  });
+  zed-editor = (import ./zed-editor.nix {
+    pkgs = pkgs-unstable;
+    lib = lib;
+  });
+in {
   home.username = "hpidcock";
   home.homeDirectory = "/home/hpidcock";
   home.stateVersion = "24.11";
@@ -12,14 +23,14 @@
     pkgs.vim
     pkgs.git
     pkgs.gh
-    pkgs-unstable.go_1_23
+    pkgs-staging.go_1_24
     pkgs.gnumake
     pkgs.htop
     pkgs.wget
     pkgs.curl
     pkgs.nixd
     pkgs.nil
-    pkgs.nixfmt-classic
+    pkgs.nixfmt
 
     pkgs.nixgl.nixGLMesa
     pkgs.nixgl.nixVulkanIntel
@@ -50,18 +61,16 @@
 
     pkgs.ollama-rocm
 
-    (import ./juju-dev-shell/shell.nix {
-      pkgs = pkgs;
-      pkgs-unstable = pkgs-unstable;
-      pkgs-24-05 = pkgs-24-05;
+    zed-editor
+    jdev
+    (import ./zed-editor-jdev.nix {
+      pkgs = pkgs-unstable;
       lib = lib;
+      jdev = jdev;
+      zed-editor = zed-editor;
     })
     (import ./firefox-snap.nix {
       pkgs = pkgs;
-      lib = lib;
-    })
-    (import ./zed-editor.nix {
-      pkgs = pkgs-unstable;
       lib = lib;
     })
   ];

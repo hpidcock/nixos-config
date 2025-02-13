@@ -1,4 +1,4 @@
-{ pkgs, lib, ... }:
+{ pkgs, ... }:
 let
   ffscript = pkgs.writeShellScriptBin "firefox" ''
     unset __EGL_VENDOR_LIBRARY_FILENAMES

@@ -1,4 +1,4 @@
-{ pkgs, pkgs-unstable, pkgs-24-05, lib, ... }:
+{ pkgs, pkgs-unstable, pkgs-24-05, pkgs-staging, lib, ... }:
 let
   mongo-4_4 = pkgs-24-05.callPackage ../mongodb/4.4.nix {
     sasl = pkgs-24-05.cyrus_sasl;
@@ -8,7 +8,7 @@ let
   };
   packages = with pkgs; [
     zsh
-    (pkgs-unstable.go_1_23)
+    (pkgs-staging.go_1_24)
     yq-go
     jq
     gnumake
@@ -22,10 +22,10 @@ let
     shfmt
     graphviz
     python312
-    (pkgs-unstable.snapcraft)
-    (pkgs-unstable.rockcraft)
-    (pkgs-unstable.charmcraft)
-    (mongo-4_4)
+    snapcraft
+    rockcraft
+    charmcraft
+    mongo-4_4
   ];
   libs = with pkgs; [ sqlite ];
   devPackages = map (lib.getOutput "dev") libs;
