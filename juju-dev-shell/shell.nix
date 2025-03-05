@@ -22,9 +22,9 @@ let
     shfmt
     graphviz
     python312
-    snapcraft
-    rockcraft
-    charmcraft
+    (pkgs-unstable.snapcraft)
+    (pkgs-unstable.rockcraft)
+    (pkgs-unstable.charmcraft)
     mongo-4_4
   ];
   libs = with pkgs; [ sqlite ];

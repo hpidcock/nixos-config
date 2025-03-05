@@ -23,7 +23,7 @@ in {
     pkgs.vim
     pkgs.git
     pkgs.gh
-    pkgs-unstable.go_1_24
+    pkgs-staging.go_1_24
     pkgs-unstable.rustc
     pkgs-unstable.cargo
     pkgs.gnumake
