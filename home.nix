@@ -52,6 +52,7 @@ in {
     pkgs-unstable._1password-cli
 
     pkgs.podman
+    pkgs.skopeo
     pkgs.minikube
     pkgs.kubectl
     pkgs.awscli2
